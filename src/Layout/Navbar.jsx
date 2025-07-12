@@ -24,8 +24,11 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <FiHome className="text-white" />
-          <span className="hidden sm:inline">Product</span>Hub
+        <img
+          src="/images/logo.png"
+          alt="Logo"
+          className="h-6 sm:h-8 object-contain"
+        />
         </motion.div>
         
         <div className="flex items-center space-x-4">
