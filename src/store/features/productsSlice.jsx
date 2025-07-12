@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/Api';
 
-// ===================== Thunks =====================
-
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (_, thunkAPI) => {
@@ -87,8 +85,6 @@ export const fetchProductsByCategory = createAsyncThunk(
     }
   }
 );
-
-// ===================== Slice =====================
 
 const productsSlice = createSlice({
   name: 'products',
@@ -208,12 +204,8 @@ const productsSlice = createSlice({
   },
 });
 
-// ===================== Actions =====================
-
 export const { setFilter, setCategoryFilter, clearSelectedProduct } =
   productsSlice.actions;
-
-// ===================== Selectors =====================
 
 export const selectFilteredProducts = createSelector(
   (state) => state.products.items,
@@ -235,7 +227,5 @@ export const selectCategories = (state) => state.products.categories;
 export const selectSelectedProduct = (state) => state.products.selectedProduct;
 export const selectStatus = (state) => state.products.status;
 export const selectError = (state) => state.products.error;
-
-// ===================== Reducer =====================
 
 export default productsSlice.reducer;

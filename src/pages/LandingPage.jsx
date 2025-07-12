@@ -42,7 +42,6 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Animated Background */}
       <motion.div 
         className="fixed inset-0 z-0"
         initial={{ scale: 1.1 }}
@@ -63,7 +62,6 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-black/70"></div>
       </motion.div>
 
-      {/* Hero Section with Carousel */}
       <section className="relative h-screen max-h-[900px] overflow-hidden z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -140,7 +138,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 px-4 max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -197,7 +194,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
       <section className="py-20 bg-white/5 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
@@ -240,7 +236,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-32 px-4 bg-black/80 backdrop-blur-sm">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}

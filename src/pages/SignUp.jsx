@@ -65,7 +65,6 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden">
-      {/* Animated futuristic e-commerce background */}
       <motion.div 
         className="fixed inset-0 z-0"
         initial={{ scale: 1.1 }}

@@ -20,13 +20,12 @@ const ProductTable = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  const [itemsPerPage] = useState(5); 
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -161,7 +160,6 @@ const ProductTable = () => {
           </table>
         </div>
 
-        {/* Pagination */}
         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
@@ -212,7 +210,6 @@ const ProductTable = () => {
         </div>
       </motion.div>
 
-      {/* Modals */}
       <ProductViewModal
         isOpen={isViewOpen}
         setIsOpen={setIsViewOpen}

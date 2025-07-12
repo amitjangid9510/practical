@@ -9,7 +9,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated futuristic e-commerce background */}
       <motion.div 
         className="fixed inset-0 z-0"
         initial={{ scale: 1.1 }}
@@ -31,7 +30,6 @@ export default function Home() {
       </motion.div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header */}
         <header className="p-6 flex justify-between items-center">
           <motion.h1 
             className="text-3xl font-bold text-white"
@@ -65,7 +63,6 @@ export default function Home() {
           )}
         </header>
 
-        {/* Main Content */}
         <main className="flex-grow flex flex-col items-center justify-center px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

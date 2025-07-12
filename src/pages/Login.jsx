@@ -36,20 +36,12 @@ const onSubmit = async (data) => {
   setLoginError('');
 
   try {
-    // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-
     const users = JSON.parse(localStorage.getItem('users')) || [];
-
-    // 🔒 Normalize and sanitize user input
     const inputUsername = data.username.trim().toLowerCase();
     const inputPassword = data.password.trim();
     const hashedInputPassword = `hashed_${inputPassword}_demo_only`;
 
-    console.log("🚀 ~ onSubmit ~ inputUsername:", inputUsername);
-    console.log("🚀 ~ onSubmit ~ hashedInputPassword:", hashedInputPassword);
-
-    // 🧠 Debug: Compare each user manually
     users.forEach((u, i) => {
       console.log(`User[${i}]:`, {
         storedUsername: u.username,
@@ -59,14 +51,13 @@ const onSubmit = async (data) => {
       });
     });
 
-    // 🔍 Match by normalized username and hashed password
     const user = users.find(
       u => u.username.trim().toLowerCase() === inputUsername &&
            u.password === hashedInputPassword
     );
 
     if (user) {
-      loginUser(user.username); // Or inputUsername — whichever is used in session
+      loginUser(user.username); 
       navigate('/Home');
     } else {
       setLoginError('Invalid username or password');
@@ -83,7 +74,6 @@ const onSubmit = async (data) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center md:p-4 relative overflow-hidden sm:min-h-[calc(100vh-72px)]">
-      {/* Animated futuristic e-commerce background */}
       <motion.div 
         className="fixed inset-0 z-0"
         initial={{ scale: 1.1 }}

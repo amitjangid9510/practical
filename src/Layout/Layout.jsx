@@ -1,4 +1,3 @@
-// Layout.js
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -10,7 +9,6 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Futuristic Background */}
       <motion.div 
         className="fixed inset-0 z-0"
         initial={{ scale: 1.1 }}
@@ -30,7 +28,6 @@ const Layout = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-800/90"></div>
       </motion.div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
         <AnimatePresence mode="wait">

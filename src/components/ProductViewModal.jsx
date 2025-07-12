@@ -13,7 +13,6 @@ const ProductViewModal = ({ isOpen, setIsOpen, product }) => {
         className="relative z-10"
         onClose={() => setIsOpen(false)}
       >
-        {/* Background overlay */}
         <Transition.Child
           as={React.Fragment}
           enter="ease-out duration-300"
@@ -55,7 +54,6 @@ const ProductViewModal = ({ isOpen, setIsOpen, product }) => {
                 </div>
 
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Product Image */}
                   <div className="flex justify-center">
                     <img
                       src={product.image}
@@ -64,7 +62,6 @@ const ProductViewModal = ({ isOpen, setIsOpen, product }) => {
                     />
                   </div>
 
-                  {/* Product Details */}
                   <div>
                     <div className="mb-4">
                       <h4 className="text-sm font-medium text-gray-900">Title</h4>
@@ -90,7 +87,6 @@ const ProductViewModal = ({ isOpen, setIsOpen, product }) => {
                       </p>
                     </div>
 
-                    {/* Rating Information */}
                     <div className="mb-4">
                       <h4 className="text-sm font-medium text-gray-900">Rating</h4>
                       <div className="mt-1 flex items-center">
