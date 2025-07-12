@@ -64,7 +64,6 @@ const ProductForm = ({ isOpen, setIsOpen, product, isEdit = false }) => {
         count: Number(data.rating.count)
       }
     };
-    console.log("🚀 ~ onSubmit ~ productData:", productData)
 
     if (isEdit) {
       dispatch(updateProduct({ id: product.id, productData }));

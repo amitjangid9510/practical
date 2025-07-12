@@ -7,31 +7,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
   setFilter, 
   setCategoryFilter,
-  fetchCategories,
-  extractCategoriesFromProducts
+  fetchCategories
 } from '../store/features/productsSlice';
-import { 
-  selectCategories,
-  selectUniqueCategories 
-} from '../store/features/productsSlice';
+import { selectCategories } from '../store/features/productsSlice';
 
 const Products = () => {
   const [isAddOpen, setIsAddOpen] = React.useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = React.useState(false);
   const dispatch = useDispatch();
-  
-  const categoriesFromSelector = useSelector(selectUniqueCategories);
-  const categoriesFromState = useSelector(selectCategories);
-  const categories = categoriesFromState.length > 0 ? categoriesFromState : categoriesFromSelector;
-  
+  const categories = useSelector(selectCategories);
   const categoryFilter = useSelector((state) => state.products.categoryFilter);
 
   useEffect(() => {
-    dispatch(fetchCategories())
-      .unwrap()
-      .catch(() => {
-        dispatch(extractCategoriesFromProducts());
-      });
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const handleSearch = (e) => {
@@ -88,23 +76,19 @@ const Products = () => {
                     >
                       All Categories
                     </button>
-                    {categories && categories.length > 0 ? (
-                      categories.map((category) => (
-                        <button
-                          key={category}
-                          onClick={() => handleCategoryChange(category)}
-                          className={`block w-full text-left px-4 py-2 text-sm ${
-                            categoryFilter === category 
-                              ? 'bg-gray-100 text-gray-900' 
-                              : 'text-gray-700 hover:bg-gray-100'
-                          }`}
-                        >
-                          {category}
-                        </button>
-                      ))
-                    ) : (
-                      <div className="px-4 py-2 text-sm text-gray-500">No categories available</div>
-                    )}
+                    {Array.isArray(categories) && categories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => handleCategoryChange(category)}
+                        className={`block w-full text-left px-4 py-2 text-sm ${
+                          categoryFilter === category 
+                            ? 'bg-gray-100 text-gray-900' 
+                            : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                      >
+                        {category}
+                      </button>
+                    ))}
                   </div>
                 </motion.div>
               )}

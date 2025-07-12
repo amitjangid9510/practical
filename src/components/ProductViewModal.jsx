@@ -3,7 +3,6 @@ import { Dialog, Transition } from '@headlessui/react';
 import { FiX } from 'react-icons/fi';
 
 const ProductViewModal = ({ isOpen, setIsOpen, product }) => {
-  console.log("🚀 ~ ProductViewModal ~ product:", product)
   if (!product) return null;
 
   return (

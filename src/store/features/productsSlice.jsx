@@ -114,11 +114,6 @@ const productsSlice = createSlice({
       state.filter = '';
       state.categoryFilter = 'all';
       state.searchTerm = '';
-    },
-    extractCategoriesFromProducts: (state) => {
-      if (state.items.length > 0 && state.categories.length === 0) {
-        state.categories = [...new Set(state.items.map(product => product.category))];
-      }
     }
   },
   extraReducers: (builder) => {
@@ -130,15 +125,13 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
-        if (state.categories.length === 0) {
-          state.categories = [...new Set(action.payload.map(product => product.category))];
-        }
+        const uniqueCategories = [...new Set(action.payload.map(product => product.category))];
+        state.categories = uniqueCategories;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message;
       })
-      
       .addCase(fetchProductById.pending, (state) => {
         state.status = 'loading';
         state.error = null;
@@ -222,7 +215,7 @@ const productsSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload || action.error.message;
       });
-  },
+  }
 });
 
 export const selectAllProducts = (state) => state.products.items;
@@ -230,17 +223,6 @@ export const selectCategories = (state) => state.products.categories;
 export const selectSelectedProduct = (state) => state.products.selectedProduct;
 export const selectStatus = (state) => state.products.status;
 export const selectError = (state) => state.products.error;
-export const selectCurrentFilters = (state) => ({
-  searchTerm: state.products.searchTerm,
-  categoryFilter: state.products.categoryFilter
-});
-
-export const selectUniqueCategories = createSelector(
-  [selectAllProducts],
-  (products) => {
-    return [...new Set(products.map(product => product.category))];
-  }
-);
 
 export const selectFilteredProducts = createSelector(
   [selectAllProducts, (state) => state.products.searchTerm, (state) => state.products.categoryFilter],
@@ -248,12 +230,9 @@ export const selectFilteredProducts = createSelector(
     return products.filter((product) => {
       const matchesSearch = searchTerm === '' || 
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
-      
+        product.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = categoryFilter === 'all' || 
         product.category === categoryFilter;
-      
       return matchesSearch && matchesCategory;
     });
   }
@@ -264,8 +243,7 @@ export const {
   setCategoryFilter, 
   setSearchTerm,
   clearSelectedProduct,
-  resetFilters,
-  extractCategoriesFromProducts
+  resetFilters
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
