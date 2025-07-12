@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import ProductForm from '../components/ProductForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-  setFilter, 
+  setSearchTerm, 
   setCategoryFilter,
   fetchCategories
 } from '../store/features/productsSlice';
@@ -23,7 +23,7 @@ const Products = () => {
   }, [dispatch]);
 
   const handleSearch = (e) => {
-    dispatch(setFilter(e.target.value));
+    dispatch(setSearchTerm(e.target.value));
   };
 
   const handleCategoryChange = (category) => {

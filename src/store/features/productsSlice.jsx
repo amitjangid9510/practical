@@ -93,27 +93,22 @@ const productsSlice = createSlice({
     selectedProduct: null,
     status: 'idle',
     error: null,
-    filter: '',
-    categoryFilter: 'all',
-    searchTerm: ''
+    searchTerm: '',
+    categoryFilter: 'all'
   },
   reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload;
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
     },
     setCategoryFilter: (state, action) => {
       state.categoryFilter = action.payload;
-    },
-    setSearchTerm: (state, action) => {
-      state.searchTerm = action.payload;
     },
     clearSelectedProduct: (state) => {
       state.selectedProduct = null;
     },
     resetFilters: (state) => {
-      state.filter = '';
-      state.categoryFilter = 'all';
       state.searchTerm = '';
+      state.categoryFilter = 'all';
     }
   },
   extraReducers: (builder) => {
@@ -239,9 +234,8 @@ export const selectFilteredProducts = createSelector(
 );
 
 export const { 
-  setFilter, 
+  setSearchTerm, 
   setCategoryFilter, 
-  setSearchTerm,
   clearSelectedProduct,
   resetFilters
 } = productsSlice.actions;
