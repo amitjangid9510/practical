@@ -6,7 +6,6 @@ export const fetchProducts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axiosInstance.get('/');
-      console.log("🚀 ~ response:", response);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -96,6 +95,7 @@ const productsSlice = createSlice({
     error: null,
     filter: '',
     categoryFilter: 'all',
+    searchTerm: ''
   },
   reducers: {
     setFilter: (state, action) => {
@@ -104,9 +104,22 @@ const productsSlice = createSlice({
     setCategoryFilter: (state, action) => {
       state.categoryFilter = action.payload;
     },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
     clearSelectedProduct: (state) => {
       state.selectedProduct = null;
     },
+    resetFilters: (state) => {
+      state.filter = '';
+      state.categoryFilter = 'all';
+      state.searchTerm = '';
+    },
+    extractCategoriesFromProducts: (state) => {
+      if (state.items.length > 0 && state.categories.length === 0) {
+        state.categories = [...new Set(state.items.map(product => product.category))];
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -117,11 +130,15 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
+        if (state.categories.length === 0) {
+          state.categories = [...new Set(action.payload.map(product => product.category))];
+        }
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message;
       })
+      
       .addCase(fetchProductById.pending, (state) => {
         state.status = 'loading';
         state.error = null;
@@ -141,6 +158,9 @@ const productsSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items.push(action.payload);
+        if (!state.categories.includes(action.payload.category)) {
+          state.categories.push(action.payload.category);
+        }
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.status = 'failed';
@@ -196,6 +216,7 @@ const productsSlice = createSlice({
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
+        state.categoryFilter = action.meta.arg;
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.status = 'failed';
@@ -204,28 +225,47 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setFilter, setCategoryFilter, clearSelectedProduct } =
-  productsSlice.actions;
-
-export const selectFilteredProducts = createSelector(
-  (state) => state.products.items,
-  (state) => state.products.filter,
-  (state) => state.products.categoryFilter,
-  (items, filter, categoryFilter) => {
-    return items.filter((product) => {
-      const matchesFilter =
-        product.title.toLowerCase().includes(filter.toLowerCase()) ||
-        product.description.toLowerCase().includes(filter.toLowerCase());
-      const matchesCategory =
-        categoryFilter === 'all' || product.category === categoryFilter;
-      return matchesFilter && matchesCategory;
-    });
-  }
-);
-
+export const selectAllProducts = (state) => state.products.items;
 export const selectCategories = (state) => state.products.categories;
 export const selectSelectedProduct = (state) => state.products.selectedProduct;
 export const selectStatus = (state) => state.products.status;
 export const selectError = (state) => state.products.error;
+export const selectCurrentFilters = (state) => ({
+  searchTerm: state.products.searchTerm,
+  categoryFilter: state.products.categoryFilter
+});
+
+export const selectUniqueCategories = createSelector(
+  [selectAllProducts],
+  (products) => {
+    return [...new Set(products.map(product => product.category))];
+  }
+);
+
+export const selectFilteredProducts = createSelector(
+  [selectAllProducts, (state) => state.products.searchTerm, (state) => state.products.categoryFilter],
+  (products, searchTerm, categoryFilter) => {
+    return products.filter((product) => {
+      const matchesSearch = searchTerm === '' || 
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesCategory = categoryFilter === 'all' || 
+        product.category === categoryFilter;
+      
+      return matchesSearch && matchesCategory;
+    });
+  }
+);
+
+export const { 
+  setFilter, 
+  setCategoryFilter, 
+  setSearchTerm,
+  clearSelectedProduct,
+  resetFilters,
+  extractCategoriesFromProducts
+} = productsSlice.actions;
 
 export default productsSlice.reducer;
