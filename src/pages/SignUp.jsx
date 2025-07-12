@@ -8,7 +8,8 @@ import { useState } from 'react';
 import { FiUser, FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
 
 const schema = yup.object().shape({
-  username: yup.string().min(3, 'Username must be at least 3 characters').required('Username is required'),
+  username: yup.string().min(3, 'Username must be at least 3 characters').max(40, 'Username must be at most 40 characters')
+  .matches(/^\S*$/, 'Username cannot contain spaces').required('Username is required'),
   email: yup.string().email('Invalid email format').required('Email is required'),
   password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: yup.string()
@@ -51,7 +52,7 @@ export default function Signup() {
         return;
       }
 
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
       registerUser({ username: data.username, email: data.email, password: data.password });
 
       reset();
