@@ -145,7 +145,7 @@ const productsSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items.push(action.payload);
+        state.items.unshift(action.payload);
         if (!state.categories.includes(action.payload.category)) {
           state.categories.push(action.payload.category);
         }

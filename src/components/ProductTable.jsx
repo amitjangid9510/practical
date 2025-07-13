@@ -44,8 +44,17 @@ const ProductTable = () => {
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       dispatch(deleteProduct(id));
-      alert(`Product with ID ${id} deleted successfully!`);
     }
+  };
+
+  const handleCloseViewModal = () => {
+    setIsViewOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditOpen(false);
+    setSelectedProduct(null);
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -92,9 +101,9 @@ const ProductTable = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentItems.map((product) => (
+              {currentItems.map((product, index) => (
                 <motion.tr
-                  key={product.id}
+                  key={`${product.id}-${index}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
@@ -212,13 +221,13 @@ const ProductTable = () => {
 
       <ProductViewModal
         isOpen={isViewOpen}
-        setIsOpen={setIsViewOpen}
+        setIsOpen={handleCloseViewModal}
         product={selectedProduct}
       />
 
       <ProductForm
         isOpen={isEditOpen}
-        setIsOpen={setIsEditOpen}
+        setIsOpen={handleCloseEditModal}
         product={selectedProduct}
         isEdit={true}
       />
