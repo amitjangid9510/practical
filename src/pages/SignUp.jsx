@@ -16,22 +16,25 @@ import {
 const schema = yup.object().shape({
   username: yup
     .string()
+    .required("Username is required")
     .min(3, "Username must be at least 3 characters")
     .max(40, "Username must be at most 40 characters")
-    .matches(/^\S*$/, "Username cannot contain spaces")
-    .required("Username is required"),
+    .matches(/^\S*$/, "Username cannot contain spaces"),
+  
   email: yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .required("Email is required")
+    .email("Invalid email format"),
+
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
+    .required("Confirm Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 export default function Signup() {
