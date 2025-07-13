@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/Api';
+import axios from 'axios';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -41,10 +42,10 @@ export const updateProduct = createAsyncThunk(
   'products/updateProduct',
   async ({ id, productData }, thunkAPI) => {
     try {
-      const response = await axiosInstance.put(`/${id}`, productData);
+      const response = await axios.put(`https://fakestoreapi.com/products/${id}`, productData);
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response?.data);
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
   }
 );
