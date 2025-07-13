@@ -68,7 +68,7 @@ const ProductTable = () => {
   }
 
   if (status === 'failed') {
-    return <div className="text-red-500 text-center py-8">Error loading productfff (Fake API Error) </div>;
+    return <div className="text-red-500 text-center py-8">Error loading product (Fake API Error) </div>;
   }
 
   return (
