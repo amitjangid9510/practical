@@ -8,7 +8,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const productSchema = yup.object().shape({
-  title: yup.string().required('Title is required'),
+  title: yup
+    .string()
+    .required('Title is required')
+    .min(3, 'Title must be at least 3 characters')
+    .max(70, 'Title must be at most 70 characters')
+    .test(
+      'not-only-numbers',
+      'Title cannot be only numbers',
+      (value) => isNaN(value)
+    ),
   price: yup
     .number()
     .transform((value, originalValue) =>
@@ -17,7 +26,16 @@ const productSchema = yup.object().shape({
     .typeError('Price must be a number')
     .required('Price is required')
     .positive('Price must be positive'),
-  description: yup.string().required('Description is required'),
+  description: yup
+    .string()
+    .required('Description is required')
+    .min(10, 'Description must be at least 10 characters')
+    .max(500, 'Description must be at most 500 characters')
+    .test(
+      'not-only-numbers',
+      'Description cannot be only numbers',
+      (value) => isNaN(value)
+    ),
   category: yup.string().required('Category is required'),
   image: yup.string().url('Must be a valid URL').required('Image URL is required'),
 });
